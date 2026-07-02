@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMEMEK Workspace</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Kiri: Konfigurasi & Log -->
+        <div class="sidebar">
+            <!-- Hidden System Inputs -->
+            <div style="display:none;">
+                <input type="text" id="bbox" value="Draw a rectangle on the map" readonly>
+                <input type="text" id="output_dir" value="dataset">
+                <input type="range" id="min_conf" min="0.5" max="1.0" value="0.75" step="0.05">
+            </div>
+
+            <!-- (Settings moved to bottom panel) -->
+
+            <!-- Actions (RPG Style Menu) -->
+            <div class="rpg-menu">
+                <div class="rpg-title">Actions</div>
+                <div class="rpg-options">
+                    <button type="button" id="btn-start" class="rpg-btn"><span class="cursor">></span> START</button>
+                    <button type="button" id="btn-stop" class="rpg-btn" disabled><span class="cursor">></span> STOP</button>
+                </div>
+            </div>
+
+            <!-- Progress (RPG Style Menu) -->
+            <div class="rpg-menu">
+                <div class="rpg-title">Progress</div>
+                <div class="rpg-options">
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Percent</span> <span class="rpg-val" id="stat-progress">0%</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Done</span> <span class="rpg-val" id="stat-done">0</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Failed</span> <span class="rpg-val error" id="stat-failed">0</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Estimate</span> <span class="rpg-val" id="stat-estimate">0s</span></div>
+                </div>
+            </div>
+
+            <!-- Server Info (RPG Style Menu) -->
+            <div class="rpg-menu">
+                <div class="rpg-title">Server Info</div>
+                <div class="rpg-options">
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">USER</span> <span class="rpg-val" id="stat-username">-</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">ONLINE</span> <span class="rpg-val" id="stat-online">1</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Total DB</span> <span class="rpg-val" id="stat-total-db">0</span></div>
+                </div>
+            </div>
+        </div>
+        <!-- Area Utama: Map & Terminal -->
+        <div class="main-area">
+            <!-- Map (Mengambil sebagian besar layar) -->
+            <div class="map-container" id="map"></div>
+            
+            <!-- Bottom Panel: Settings & Terminal -->
+            <div class="bottom-panel">
+                <!-- Settings Panel -->
+                <div class="settings-section" style="flex: 3;">
+                    <div class="terminal-header">
+                        <span>SETTINGS</span>
+                    </div>
+                    <div class="settings-content rpg-options">
+                        <div class="rpg-text" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                            <div><span class="cursor visible">></span> <span class="rpg-label">ZOOM LVL</span></div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="range" id="zoom" min="15" max="19" value="19" step="1" style="width: 100px; accent-color: var(--text-main);">
+                                <span class="rpg-val" id="zoom-val">19</span>
+                            </div>
+                        </div>
+                        <div class="rpg-text" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                            <div><span class="cursor visible">></span> <span class="rpg-label">IMG SIZE</span></div>
+                            <select id="tile_size" style="background: var(--bg-panel); color: var(--text-main); border: 3px solid var(--border); font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 8px 12px; cursor: pointer; outline: none; box-shadow: 2px 2px 0 var(--border);">
+                                <option value="256" selected>256 x 256</option>
+                                <option value="512">512 x 512</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Download Panel -->
+                <div class="settings-section" style="flex: 2; align-items: center; justify-content: center;">
+                    <div class="terminal-header" style="width: 100%; border-bottom: 3px solid var(--border);">
+                        <span>DOWNLOAD</span>
+                    </div>
+                    <div class="settings-content rpg-options" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; gap: 10px;">
+                        <button id="btn-download" style="width: 100%; height: 50%; background: var(--text-main); color: var(--bg-panel); border: none; font-family: 'Press Start 2P', monospace; font-size: 16px; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: inset -4px -4px 0px rgba(0,0,0,0.2);">
+                            GET ZIP
+                        </button>
+                        <button id="btn-repack" style="width: 100%; padding: 8px 0; background: transparent; color: var(--text-main); border: 2px solid var(--text-main); font-family: 'Press Start 2P', monospace; font-size: 10px; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center;">
+                            ZIP AGAIN
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Terminal Log -->
+                <div class="terminal-section" style="flex: 5;">
+                    <div class="terminal-header">
+                        <span>SYS.LOG</span>
+                    </div>
+                    <div class="terminal-window" id="terminal"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check Auth First!
+        let username = localStorage.getItem('geoai_username');
+        if (!username) {
+            window.location.href = '/#name-input';
+            throw new Error("Redirecting to login...");
+        }
+
+        // Map Initialization
+        const map = L.map('map', {attributionControl: false}).setView([-2.5, 118], 5); // Center Indonesia
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(map);
+
+        // Tampilkan level zoom saat ini di console saat peta di-zoom
+        map.on('zoomend', function() {
+            const currentZoom = map.getZoom();
+            console.log("📍 Zoom sekarang di peta:", currentZoom);
+        });
+
+        // Multiplayer state
+        const clientId = "client_" + Math.random().toString(36).substr(2, 9);
+        document.getElementById('stat-username').innerText = username;
+        
+        const ws = new WebSocket(`ws://${window.location.host}/ws/${clientId}`);
+        const otherUsersGroup = new L.FeatureGroup();
+        map.addLayer(otherUsersGroup);
+        const otherUserBoxes = {};
+        
+        ws.onopen = function() {
+            if (currentBbox) {
+                sendBoxUpdate();
+            }
+        };
+        
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === "init") {
+                document.getElementById('stat-online').innerText = data.user_count;
+                for (const [cid, info] of Object.entries(data.boxes)) {
+                    if (cid !== clientId) renderOtherBox(cid, info);
+                }
+            } else if (data.type === "user_count") {
+                document.getElementById('stat-online').innerText = data.user_count;
+            } else if (data.type === "update_box") {
+                if (data.client_id !== clientId) renderOtherBox(data.client_id, data.data);
+            } else if (data.type === "delete_box") {
+                if (otherUserBoxes[data.client_id]) {
+                    otherUsersGroup.removeLayer(otherUserBoxes[data.client_id]);
+                    delete otherUserBoxes[data.client_id];
+                }
+            } else if (data.type === 'new_history') {
+                // Tampilkan histori secara real-time
+                const item = data.data;
+                const bounds = [
+                    [item.lat_min, item.lon_min],
+                    [item.lat_max, item.lon_max]
+                ];
+                const downloader = item.username ? item.username : "Unknown";
+                const userColor = getColorForUser(downloader);
+                L.rectangle(bounds, {
+                    color: userColor,
+                    weight: 2,
+                    fillColor: userColor,
+                    fillOpacity: 0.3
+                }).addTo(map).bindPopup(`Downloaded by: ${downloader}<br>At: ${new Date(item.timestamp).toLocaleString()}`);
+            }
+        };
+        
+        function renderOtherBox(cid, info) {
+            if (otherUserBoxes[cid]) {
+                otherUsersGroup.removeLayer(otherUserBoxes[cid]);
+            }
+            const userColor = getColorForUser(info.username);
+            const bounds = L.latLngBounds(info.bounds[0], info.bounds[1]);
+            const rect = L.rectangle(bounds, {color: userColor, weight: 3, fillColor: userColor, fillOpacity: 0.2});
+            rect.bindTooltip(info.username, {permanent: true, direction: "center", className: "other-user-tooltip"}).openTooltip();
+            
+            otherUserBoxes[cid] = rect;
+            otherUsersGroup.addLayer(rect);
+        }
+
+        // Draw control
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            },
+            draw: {
+                polygon: false,
+                polyline: false,
+                circle: false,
+                circlemarker: false,
+                marker: false,
+                rectangle: {
+                    shapeOptions: {
+                        color: getColorForUser(username),
+                        weight: 3,
+                        fillColor: getColorForUser(username),
+                        fillOpacity: 0.2
+                    }
+                }
+            }
+        });
+        map.addControl(drawControl);
+
+        var currentBbox = null;
+
+        map.on(L.Draw.Event.CREATED, function (e) {
+            if (currentBbox) {
+                drawnItems.removeLayer(currentBbox);
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({type: "delete_box"}));
+                }
+            }
+            currentBbox = e.layer;
+            drawnItems.addLayer(currentBbox);
+            currentBbox.bindTooltip(username + " (You)", {permanent: true, direction: "center", className: "user-tooltip"}).openTooltip();
+            
+            updateBboxInput();
+            sendBoxUpdate();
+        });
+
+        map.on(L.Draw.Event.EDITED, function (e) {
+            updateBboxInput();
+            sendBoxUpdate();
+        });
+
+        map.on(L.Draw.Event.DELETED, function (e) {
+            let deletedMyBox = false;
+            e.layers.eachLayer(function(layer) {
+                if (layer === currentBbox) {
+                    currentBbox = null;
+                    deletedMyBox = true;
+                }
+            });
+            updateBboxInput();
+            if (deletedMyBox && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({type: "delete_box"}));
+            }
+        });
+        
+        function sendBoxUpdate() {
+            if (!currentBbox || ws.readyState !== WebSocket.OPEN) return;
+            const bounds = currentBbox.getBounds();
+            ws.send(JSON.stringify({
+                type: "update_box",
+                username: username,
+                bounds: [
+                    [bounds.getSouthWest().lat, bounds.getSouthWest().lng],
+                    [bounds.getNorthEast().lat, bounds.getNorthEast().lng]
+                ]
+            }));
+        }
+
+        // Load History
+        async function loadHistory() {
+            try {
+                const res = await fetch('/api/history');
+                const historyData = await res.json();
+                historyData.forEach(item => {
+                    const bounds = [[item.lat_min, item.lon_min], [item.lat_max, item.lon_max]];
+                    const downloader = item.username || "Unknown";
+                    const userColor = getColorForUser(downloader);
+                    L.rectangle(bounds, {
+                        color: userColor,
+                        weight: 3,
+                        opacity: 1.0,
+                        fillColor: userColor,
+                        fillOpacity: 0.3
+                    }).addTo(map).bindPopup(`Downloaded by: ${downloader}<br>At: ${new Date(item.timestamp).toLocaleString()}`);
+                });
+            } catch (e) {}
+        }
+        loadHistory();
+
+        // Default bounding box (kosong)
+        document.getElementById('bbox').value = "Draw a rectangle on the map";
+
+        function updateBboxInput() {
+            if (!currentBbox) {
+                document.getElementById('bbox').value = "Draw a rectangle on the map";
+                return;
+            }
+            const bounds = currentBbox.getBounds();
+            const bboxArr = [
+                bounds.getWest().toFixed(4), 
+                bounds.getSouth().toFixed(4), 
+                bounds.getEast().toFixed(4), 
+                bounds.getNorth().toFixed(4)
+            ];
+            document.getElementById('bbox').value = bboxArr.join(', ');
+        }
+
+        // Sliders
+        const zoomEl = document.getElementById('zoom');
+        const zoomValEl = document.getElementById('zoom-val');
+        const zoomResEl = document.getElementById('zoom-res');
+        const confEl = document.getElementById('min_conf');
+        const confValEl = document.getElementById('conf-val');
+
+        const resMap = { 15: "~4m/px", 16: "~2m/px", 17: "~1m/px", 18: "~0.6m/px", 19: "~0.3m/px" };
+        zoomEl.addEventListener('input', (e) => {
+            zoomValEl.innerText = e.target.value;
+            zoomResEl.innerText = resMap[e.target.value] || "";
+        });
+        confEl.addEventListener('input', (e) => confValEl.innerText = e.target.value);
+
+        // Actions
+        function getColorForUser(username) {
+            if (!username || username === 'Unknown') return '#c14b7a'; // Default
+            let hash = 0;
+            for (let i = 0; i < username.length; i++) {
+                hash = username.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const hue = Math.abs(hash % 360);
+            return `hsl(${hue}, 80%, 45%)`; // Vibrant color
+        }
+
+        const btnStart = document.getElementById('btn-start');
+        const btnStop = document.getElementById('btn-stop');
+        const badgeStatus = document.getElementById('status-badge');
+        const terminal = document.getElementById('terminal');
+
+        function updateBadge(status) {
+            if (badgeStatus) {
+                badgeStatus.innerText = status;
+                badgeStatus.className = 'badge ' + status.toLowerCase();
+            }
+            
+            if(status === 'RUNNING') {
+                btnStart.disabled = true;
+                btnStop.disabled = false;
+            } else {
+                btnStart.disabled = false;
+                btnStop.disabled = true;
+            }
+        }
+
+        // Terminal Log
+        function appendLog(text) {
+            if (text === "[PROCESS_FINISHED]") {
+                updateBadge("DONE");
+                return;
+            }
+            
+            // Handle tqdm's \r
+            if (text.includes('\r')) {
+                const parts = text.split('\r');
+                const lastPart = parts[parts.length - 1];
+                
+                if (terminal.lastChild && terminal.lastChild.classList && terminal.lastChild.classList.contains('progress-line')) {
+                    terminal.removeChild(terminal.lastChild);
+                }
+                
+                if (lastPart.trim() !== '') {
+                    const span = document.createElement('span');
+                    span.className = 'progress-line';
+                    span.innerText = lastPart;
+                    terminal.appendChild(span);
+                }
+            } else {
+                const span = document.createElement('span');
+                // Simple color coding (retro colors)
+                if(text.toLowerCase().includes('error') || text.toLowerCase().includes('gagal')) span.style.color = '#c14b7a';
+                else if(text.toLowerCase().includes('berhasil') || text.includes('✅')) span.style.color = '#3b8b7a';
+                else if(text.toLowerCase().includes('peringatan') || text.includes('⚠️')) span.style.color = '#e7e6e1';
+                
+                span.innerText = text;
+                terminal.appendChild(span);
+            }
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        const clearBtn = document.getElementById('btn-clear-log');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                terminal.innerHTML = '';
+            });
+        }
+
+        // SSE Connection
+        let eventSource = null;
+        function connectSSE() {
+            if(eventSource) {
+                eventSource.close();
+            }
+            eventSource = new EventSource(`/api/stream?user=${username}`);
+            eventSource.onmessage = function(event) {
+                try {
+                    const text = JSON.parse(event.data);
+                    appendLog(text);
+                } catch(e) {}
+            };
+        }
+
+        // Actions
+        btnStart.addEventListener('click', async () => {
+            if (!currentBbox) {
+                alert("Please draw a bounding box on the map first!");
+                return;
+            }
+            
+            const bounds = currentBbox.getBounds();
+            const bboxArr = [
+                bounds.getWest(),
+                bounds.getSouth(),
+                bounds.getEast(),
+                bounds.getNorth()
+            ];
+            
+            const payload = {
+                bbox: bboxArr,
+                zoom: parseInt(zoomEl.value),
+                output_dir: document.getElementById('output_dir').value,
+                min_confidence: parseFloat(confEl.value),
+                tile_size: parseInt(document.getElementById('tile_size').value),
+                username: username
+            };
+            
+            const res = await fetch('/api/start', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if(data.status === 'started') {
+                updateBadge("RUNNING");
+                connectSSE();
+            } else {
+                alert(data.message);
+            }
+        });
+
+        btnStop.addEventListener('click', async () => {
+            if(!confirm("Yakin ingin menghentikan proses?")) return;
+            const res = await fetch('/api/stop', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({username: username})
+            });
+            const data = await res.json();
+            if(data.status === 'stopped') {
+                updateBadge("IDLE");
+            }
+        });
+
+
+        let fetchStatusInterval = null;
+        let processStartTime = null;
+        let lastDone = 0;
+        
+        async function fetchStatus() {
+            try {
+                const res = await fetch(`/api/status?user=${username}`);
+                const data = await res.json();
+                
+                let percent = 0;
+                let done = data.done_tiles || 0;
+                let failed = data.failed_tiles || 0;
+                let estimateStr = "--";
+                
+                if (data.status === 'RUNNING' && data.total_tiles > 0) {
+                    if (!processStartTime || done < lastDone) {
+                        processStartTime = Date.now();
+                    }
+                    lastDone = done;
+                    
+                    percent = Math.round((done / data.total_tiles) * 100);
+                    
+                    // Hitung Estimate
+                    if (done > 0) {
+                        let elapsedSeconds = (Date.now() - processStartTime) / 1000;
+                        let tilesLeft = data.total_tiles - done;
+                        let speed = done / elapsedSeconds;
+                        let remainingSeconds = Math.round(tilesLeft / speed);
+                        
+                        if (!isFinite(remainingSeconds) || isNaN(remainingSeconds)) {
+                            estimateStr = "Cal..";
+                        } else {
+                            let m = Math.floor(remainingSeconds / 60);
+                            let s = remainingSeconds % 60;
+                            if (m > 0) estimateStr = `${m}m ${s}s`;
+                            else estimateStr = `${s}s`;
+                        }
+                    } else {
+                        estimateStr = "Cal..";
+                    }
+                } else if (data.status !== 'RUNNING') {
+                    // Reset to 0 when finished/idle
+                    percent = 0;
+                    done = 0;
+                    failed = 0;
+                    processStartTime = null;
+                    estimateStr = "0s";
+                }
+                
+                document.getElementById('stat-progress').innerText = percent + "%";
+                document.getElementById('stat-done').innerText = done;
+                document.getElementById('stat-failed').innerText = failed;
+                document.getElementById('stat-estimate').innerText = estimateStr;
+                document.getElementById('stat-total-db').innerText = data.total_db || 0;
+                
+                if (data.status === 'DONE' || data.status === 'ERROR' || data.status === 'IDLE') {
+                    if(data.status !== 'IDLE') updateBadge(data.status);
+                } else if (data.status === 'RUNNING') {
+                    updateBadge("RUNNING");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        
+        // Initial Fetch & Continuous Polling
+        // Polling loop
+        setInterval(fetchStatus, 2000);
+
+        // ZIP Download Logic
+        let zipPollInterval = null;
+        
+        document.getElementById('btn-download').addEventListener('click', async function(e) {
+            if (this.onclick) return; // Prevent double trigger if already in ready state
+            
+            try {
+                const res = await fetch('/api/prepare_download', { method: 'POST' });
+                const data = await res.json();
+                if (data.status === 'started' || data.status === 'processing') {
+                    this.innerText = 'PACKING... WAIT';
+                    this.style.opacity = '0.5';
+                    this.style.cursor = 'wait';
+                    
+                    if (!zipPollInterval) {
+                        zipPollInterval = setInterval(checkZipStatus, 2000);
+                    }
+                } else if (data.status === 'error') {
+                    alert(data.message);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+        
+        async function checkZipStatus() {
+            try {
+                const res = await fetch('/api/download_status');
+                const data = await res.json();
+                
+                const btn = document.getElementById('btn-download');
+                
+                if (data.state === 'ready') {
+                    if(zipPollInterval) clearInterval(zipPollInterval);
+                    zipPollInterval = null;
+                    btn.innerText = `GET ZIP (${data.count} DATASET)`;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    
+                    btn.onclick = () => {
+                        window.location.href = '/api/download_file';
+                    };
+                } else if (data.state === 'error') {
+                    if(zipPollInterval) clearInterval(zipPollInterval);
+                    zipPollInterval = null;
+                    btn.innerText = 'ERROR ZIPPING';
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    setTimeout(() => btn.innerText = 'GET ZIP', 3000);
+                } else if (data.state === 'processing') {
+                    btn.innerText = 'PACKING... WAIT';
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'wait';
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        
+        document.getElementById('btn-repack').addEventListener('click', async function(e) {
+            try {
+                const res = await fetch('/api/prepare_download', { method: 'POST' });
+                const data = await res.json();
+                if (data.status === 'started' || data.status === 'processing') {
+                    const btnDl = document.getElementById('btn-download');
+                    btnDl.innerText = 'PACKING... WAIT';
+                    btnDl.style.opacity = '0.5';
+                    btnDl.style.cursor = 'wait';
+                    btnDl.onclick = null;
+                    
+                    if (!zipPollInterval) {
+                        zipPollInterval = setInterval(checkZipStatus, 2000);
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+        
+        // Initial check on load
+        checkZipStatus();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+/* CSS Variables for SIMEMEK Retro Theme */
+:root {
+    --bg-dark: #e7e6e1;
+    --bg-panel: #e7e6e1;
+    --bg-input: #ffffff;
+    --text-main: #161616;
+    --text-muted: #6b6b66;
+    --accent-green: #161616;
+    --accent-hover: #333333;
+    --danger: #c14b7a;
+    --danger-hover: #a03862;
+    --border: #161616;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.5;
+    height: 100vh;
+    overflow: hidden;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 6px 6px;
+}
+
+/* Custom 8-bit Scrollbar */
+::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-left: 3px solid var(--border);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border: 2px solid var(--bg-dark); /* Membuat efek padding kotak */
+    border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+::-webkit-scrollbar-corner {
+    background: var(--bg-dark);
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Sidebar Kiri */
+.sidebar {
+    width: 350px; /* Diperlebar sedikit agar muat untuk dashboard */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.config-panel {
+    background-color: var(--bg-panel);
+    border: 3px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+}
+
+.config-panel h2 {
+    padding: 16px;
+    font-size: 14px;
+    border-bottom: 3px solid var(--border);
+    color: var(--text-main);
+    font-family: 'Press Start 2P', monospace;
+    text-align: center;
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Area Utama (Map & Dashboard) */
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0; /* prevent flex overflow */
+}
+
+.map-container {
+    flex: 1;
+    width: 100%;
+    border: 3px solid var(--border);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    z-index: 1; /* For leaflet */
+}
+
+#config-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.row {
+    flex-direction: row;
+    gap: 20px;
+}
+
+.form-group.row .col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 13px;
+    color: var(--text-main);
+    font-weight: bold;
+}
+
+label span {
+    color: var(--text-main);
+    font-weight: bold;
+}
+
+input[type="text"], select {
+    background-color: var(--bg-input);
+    border: 2px solid var(--border);
+    color: var(--text-main);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    outline: none;
+    border-radius: 0;
+}
+
+input[type="text"]:focus, select:focus {
+    background-color: #fffde7;
+}
+
+input[type="range"] {
+    accent-color: var(--accent-green);
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    transition: all 0.1s;
+    flex: 1;
+    text-align: center;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 var(--border);
+}
+
+.btn:active {
+    box-shadow: 0 0 0 var(--border);
+    transform: translate(2px, 2px);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-primary {
+    background-color: var(--accent-green);
+    color: var(--bg-dark);
+}
+.btn-primary:not(:disabled):hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+.btn-danger:not(:disabled):hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-secondary {
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    flex-basis: 100%;
+}
+.btn-secondary:not(:disabled):hover {
+    background-color: #eaeaea;
+}
+
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 8px;
+    flex: none;
+    box-shadow: 1px 1px 0 var(--border);
+}
+.btn-sm:active {
+    box-shadow: 0 0 0 var(--border);
+    transform: translate(1px, 1px);
+}
+
+/* Sidebar Kanan / Bawah dihapus panel-right class nya, langsung ke .dashboard-section */
+
+/* Terminal Log & Settings Bottom Panel */
+.bottom-panel {
+    display: flex;
+    gap: 20px;
+    height: 180px;
+    flex: none;
+}
+
+.settings-section {
+    flex: 4;
+    background-color: var(--bg-panel);
+    border: 3px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+}
+
+.settings-content {
+    padding: 15px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.terminal-section {
+    flex: 6;
+    height: 100%;
+    background-color: var(--bg-panel); /* Senada dengan tema */
+    border: 3px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+}
+
+.terminal-header {
+    padding: 6px 12px; /* Dikecilkan */
+    background-color: transparent;
+    color: var(--text-main); /* Teks jadi gelap */
+    border-bottom: 3px solid var(--border); /* Cukup gunakan garis pemisah */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+}
+
+.terminal-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.badge {
+    padding: 6px 10px;
+    font-size: 8px;
+    border: 2px solid var(--border);
+    font-family: 'Press Start 2P', monospace;
+}
+.badge.idle { background-color: transparent; color: var(--text-main); }
+.badge.running { background-color: var(--text-main); color: var(--bg-panel); border-color: var(--border); }
+.badge.done { background-color: var(--text-main); color: var(--bg-panel); border-color: var(--border); }
+.badge.error { background-color: var(--danger); color: white; border-color: var(--border); }
+
+.terminal-window {
+    flex: 1;
+    padding: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    color: var(--text-main); /* Warna teks tinta/gelap agar terlihat di background terang */
+    overflow-y: auto;
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-line {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 4px 0;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+}
+
+/* RPG Menu Style */
+.rpg-menu {
+    border: 3px solid var(--border);
+    background-color: var(--bg-panel); /* Senada dengan tema */
+    padding: 16px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+}
+
+.rpg-title {
+    font-size: 14px;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-main);
+    margin-bottom: 20px;
+}
+
+.rpg-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Jarak diperbesar */
+}
+
+.rpg-btn {
+    background: transparent;
+    border: none;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px; /* Diperbesar sesuai permintaan */
+    color: var(--text-main);
+    text-align: left;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.rpg-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px; /* Diperbesar agar serasi dengan action */
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+}
+
+.rpg-label {
+    flex: 1; /* Pushes the value to the right */
+}
+
+.rpg-val {
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-main);
+}
+
+.rpg-val.error {
+    color: var(--danger);
+}
+
+.rpg-btn:disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.cursor {
+    visibility: hidden;
+    margin-right: 12px;
+    color: var(--text-main);
+}
+.cursor.visible {
+    visibility: visible;
+}
+
+.rpg-btn:hover:not(:disabled) .cursor {
+    visibility: visible;
+}
+
+/* Fallback for disabled cursor */
+.rpg-btn:disabled .cursor {
+    visibility: hidden;
+}
+
+.chart-container {
+    flex: 1;
+    min-height: 150px;
+    position: relative;
+    border: 2px dashed var(--border);
+    padding: 10px;
+    background: white;
+}
+
+/* Preview Grid */
+.preview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.preview-item {
+    background-color: var(--bg-input);
+    padding: 10px;
+    border: 3px solid var(--border);
+}
+
+.preview-info {
+    font-size: 10px;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.preview-images {
+    display: flex;
+    gap: 4px;
+}
+
+.preview-images img {
+    width: 50%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 2px solid var(--border);
+}
+
+.placeholder {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* File List */
+.files-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+}
+
+.file-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-list li {
+    padding: 12px 16px;
+    background-color: var(--bg-input);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.file-meta {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 8px;
+}
+
+/* Leaflet Map 8-bit Customization */
+.leaflet-bar {
+    border: 3px solid var(--border) !important;
+    border-radius: 0 !important;
+    box-shadow: 2px 2px 0 var(--border) !important;
+    background: transparent !important;
+}
+
+.leaflet-bar a {
+    border-radius: 0 !important;
+    background-color: var(--bg-panel) !important;
+    color: var(--text-main) !important;
+    border-bottom: 2px solid var(--border) !important;
+}
+
+.leaflet-bar a:last-child {
+    border-bottom: none !important;
+}
+
+.leaflet-bar a:hover {
+    background-color: #d6d5ce !important; /* Sedikit lebih gelap saat di-hover */
+}
+
+/* Leaflet Popups */
+.leaflet-popup-content-wrapper {
+    border-radius: 0 !important;
+    border: 3px solid var(--border) !important;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1) !important;
+    background-color: var(--bg-panel) !important;
+    color: var(--text-main) !important;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+.leaflet-popup-tip {
+    border: 3px solid var(--border) !important;
+    background-color: var(--bg-panel) !important;
+}
+
+/* Multiplayer Tooltips */
+.user-tooltip, .other-user-tooltip {
+    background-color: var(--bg-input) !important;
+    border: 3px solid var(--border) !important;
+    border-radius: 0 !important;
+    color: var(--text-main) !important;
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 8px !important;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.1) !important;
+    white-space: nowrap;
+}
+
+.other-user-tooltip {
+    background-color: #f7e0ce !important; /* Warna agak beda buat user lain */
+}

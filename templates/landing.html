@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SIMEMEK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #e7e6e1;
+    --ink: #161616;
+    --gray: #6b6b66;
+    --line: #161616;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 6px 6px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .phone{
+    width:100%;
+    max-width:900px;
+    padding:40px 24px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .ghost-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:0px; /* Jarak dibuat lebih dekat */
+    position:relative;
+  }
+
+  h1.brand{
+    font-family:'Press Start 2P', monospace;
+    text-align:center;
+    font-size:52px;
+    line-height:1.25;
+    margin:0 0 24px;
+    color:var(--ink);
+  }
+
+  .domain-pill{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:36px;
+  }
+  .domain-pill .rule{
+    height:2px;
+    width:36px;
+    background:var(--ink);
+  }
+  .domain-pill .pill{
+    background:transparent;
+    color:var(--ink);
+    font-family:'Press Start 2P', monospace;
+    font-size:12px;
+    text-align:center;
+    line-height:1.4;
+    padding:14px 20px;
+    border-radius:0; /* Sudut tajam bergaya 8-bit */
+    white-space: nowrap;
+  }
+
+  .cta{
+    border:4px solid var(--ink);
+    padding:6px;
+    margin-bottom:14px;
+    width: 100%;
+    max-width: 450px;
+  }
+  .cta button{
+    width:100%;
+    background:var(--ink);
+    color:var(--bg);
+    border:none;
+    font-family:'Press Start 2P', monospace;
+    font-size:20px;
+    padding:20px 0;
+    cursor:pointer;
+    letter-spacing:1px;
+    transition: opacity 0.2s;
+  }
+  .cta button:hover{ opacity:.85; }
+
+  .screen{ display:block; width: 100%; display: flex; flex-direction: column; align-items: center; }
+</style>
+</head>
+<body>
+
+<a href="https://github.com/akbarnurrahim/SIMEMEK" target="_blank" style="position: absolute; bottom: 16px; right: 16px; text-decoration: none; color: var(--ink); opacity: 0.7; transition: opacity 0.2s; display: flex; align-items: center; gap: 8px; font-family: 'Press Start 2P', monospace; font-size: 10px;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'" title="GitHub Repository">
+  <svg height="20" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="20" fill="currentColor" style="shape-rendering: crispEdges;">
+      <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+  </svg>
+  GITHUB REPOSITORY
+</a>
+
+<div class="phone">
+  <div id="screen-home" class="screen">
+    <div class="ghost-wrap">
+      <img src="/static/character.png" alt="Character Logo" width="280" height="280" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 0px;">
+    </div>
+
+    <h1 class="brand">SIMEMEK</h1>
+
+    <div class="domain-pill">
+      <span class="rule"></span>
+      <span class="pill">Smart Image Metadata Extraction Mapping Engine Kit</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="cta">
+      <button onclick="showNameScreen()">▸ ENTER WORKSPACE</button>
+    </div>
+  </div>
+
+  <div id="screen-name" class="screen" style="display: none; padding-top: 40px;">
+    <h2 style="font-family: 'Press Start 2P', monospace; font-size: 20px; margin-bottom: 40px; text-align: center;">IDENTIFY YOURSELF</h2>
+    
+    <input type="text" id="username-input" placeholder="GUEST" style="width: 100%; max-width: 400px; background: transparent; border: 4px solid var(--ink); color: var(--ink); font-family: 'Press Start 2P', monospace; font-size: 24px; padding: 20px; text-align: center; margin-bottom: 40px; text-transform: uppercase; outline: none;" autocomplete="off" maxlength="12">
+    
+    <div class="cta" style="max-width: 400px; width: 100%;">
+      <button id="btn-enter-game" style="font-size: 24px; padding: 20px 0;">▸ START</button>
+    </div>
+  </div>
+
+  <div id="screen-opening" class="screen" style="display: none; position: fixed; inset: 0; background: var(--bg); background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px); background-size: 6px 6px; color: var(--ink); flex-direction: column; align-items: center; justify-content: center; z-index: 999;">
+    <h2 id="opening-text" style="font-family: 'Press Start 2P', monospace; font-size: 28px; text-align: center; max-width: 800px; line-height: 1.8; padding: 40px;"></h2>
+  </div>
+</div>
+
+<script>
+  function showNameScreen() {
+    document.getElementById('screen-home').style.display = 'none';
+    document.getElementById('screen-name').style.display = 'flex';
+    document.getElementById('username-input').focus();
+  }
+  
+  document.getElementById('btn-enter-game').addEventListener('click', () => {
+    let name = document.getElementById('username-input').value.trim();
+    if (!name) name = "GUEST_" + Math.floor(Math.random() * 999);
+    localStorage.setItem('geoai_username', name.toUpperCase());
+    
+    // Tampilkan animasi opening
+    document.getElementById('screen-name').style.display = 'none';
+    document.getElementById('screen-opening').style.display = 'flex';
+    
+    const text = "WELCOME TO SMART IMAGE METADATA EXTRACTION MAPPING ENGINE KIT, " + name.toUpperCase() + "...";
+    const el = document.getElementById('opening-text');
+    let i = 0;
+    
+    function typeWriter() {
+      if (i < text.length) {
+        el.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50); // Kecepatan ngetik
+      } else {
+        setTimeout(() => {
+          window.location.href = '/app';
+        }, 1200); // Tunggu sebentar sebelum pindah halaman
+      }
+    }
+    typeWriter();
+  });
+
+  // Enter key support
+  document.getElementById('username-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      document.getElementById('btn-enter-game').click();
+    }
+  });
+
+  // Handle auto-redirect from /app
+  if (window.location.hash === '#name-input') {
+    showNameScreen();
+  }
+</script>
+</body>
+</html>
