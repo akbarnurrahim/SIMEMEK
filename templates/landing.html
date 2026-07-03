@@ -100,6 +100,17 @@
   .cta button:hover{ opacity:.85; }
 
   .screen{ display:block; width: 100%; display: flex; flex-direction: column; align-items: center; }
+  
+  .pixel-transition {
+    animation: boxyWipe 0.6s steps(6) forwards;
+  }
+  @keyframes boxyWipe {
+    0% { transform: scale(1); filter: grayscale(0) contrast(1) brightness(1); }
+    40% { transform: scale(0.6) rotate(10deg); filter: grayscale(1) contrast(5) brightness(1.5); }
+    50% { transform: scale(0.1) rotate(0deg); filter: grayscale(1) contrast(10) brightness(2); opacity: 0; }
+    60% { transform: scale(0.6) rotate(-10deg); filter: grayscale(1) contrast(5) brightness(1.5); }
+    100% { transform: scale(1); filter: grayscale(0) contrast(1) brightness(1); }
+  }
 </style>
 </head>
 <body>
@@ -191,28 +202,38 @@
     const img = document.getElementById('brand-image');
     const btnToggle = document.getElementById('btn-toggle-app');
     
+    // Animasi gambar (boxy transition)
+    img.classList.remove('pixel-transition');
+    void img.offsetWidth; // trigger reflow
+    img.classList.add('pixel-transition');
+    
+    // Ganti gambar dan teks tepat di tengah animasi (300ms)
+    setTimeout(() => {
+        if(isSitititMode) {
+          title.innerText = 'SITITIT';
+          subtitle.innerText = 'Smart Image Training Intelligence Tiling & Indexing Tool';
+          img.src = '/static/character-titit.png';
+          img.onerror = () => { img.src = '/static/character-new2.png'; }; // fallback
+        } else {
+          title.innerText = 'SIMEMEK';
+          subtitle.innerText = 'Smart Image Metadata Extraction Mapping Engine Kit';
+          img.src = '/static/character-new2.png';
+          img.onerror = null;
+        }
+    }, 300);
+    
     if(isSitititMode) {
       // Pindah ke kiri dan balik arah
       btnToggle.style.right = 'auto';
       btnToggle.style.left = '-120px';
       btnToggle.style.transform = 'translateY(-50%) scale(0.8) scaleX(-1)';
       setTimeout(() => btnToggle.style.transform = 'translateY(-50%) scaleX(-1)', 100);
-      
-      title.innerText = 'SITITIT';
-      subtitle.innerText = 'Smart Image Training Intelligence Tiling & Indexing Tool';
-      img.src = '/static/character-titit.png';
-      img.onerror = () => { img.src = '/static/character-new2.png'; }; // fallback
     } else {
       // Pindah ke kanan dan kembalikan arah
       btnToggle.style.left = 'auto';
       btnToggle.style.right = '-120px';
       btnToggle.style.transform = 'translateY(-50%) scale(0.8)';
       setTimeout(() => btnToggle.style.transform = 'translateY(-50%) scale(1)', 100);
-      
-      title.innerText = 'SIMEMEK';
-      subtitle.innerText = 'Smart Image Metadata Extraction Mapping Engine Kit';
-      img.src = '/static/character-new2.png';
-      img.onerror = null;
     }
   }
   
