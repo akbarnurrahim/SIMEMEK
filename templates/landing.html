@@ -113,15 +113,14 @@
 </a>
 
 <div class="phone" style="flex-direction: row; justify-content: space-between; align-items: center; max-width: 1200px; gap: 40px;">
-  
-  <div class="left-panel" style="flex: 1.2; display: flex; flex-direction: column; align-items: flex-start;">
-    <div class="ghost-wrap">
+    <div class="left-panel" style="flex: 1.2; display: flex; flex-direction: column; align-items: flex-start;">
+    <div class="ghost-wrap" style="position: relative; display: inline-block;">
       <img id="brand-image" src="/static/character-new2.png" alt="Character Logo" width="450" height="450" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 20px;">
+      <img id="btn-toggle-app" src="/static/arrow-right.png" onclick="toggleAppMode()" style="position: absolute; right: -40px; top: 50%; transform: translateY(-50%); width: 50px; cursor: pointer; transition: transform 0.1s; image-rendering: pixelated;" alt="Toggle Mode">
     </div>
     
-    <div style="display: flex; align-items: center; justify-content: center; width: 450px; margin-bottom: 10px; position: relative;">
+    <div style="display: flex; align-items: center; justify-content: center; width: 450px; margin-bottom: 10px;">
       <h1 id="brand-title" class="brand" style="margin: 0; text-align: center;">SIMEMEK</h1>
-      <button id="btn-toggle-app" onclick="toggleAppMode()" style="position: absolute; right: 0; background: none; border: none; color: var(--ink); font-family: 'Press Start 2P', monospace; font-size: 24px; cursor: pointer; padding: 0; outline: none; transition: transform 0.1s;">▶</button>
     </div>
     
     <div class="domain-pill" style="margin-bottom: 0; justify-content: flex-start; gap: 0; margin-left: -80px;">
@@ -192,22 +191,24 @@
     const img = document.getElementById('brand-image');
     const btnToggle = document.getElementById('btn-toggle-app');
     
-    // Animasi klik tombol sederhana
-    btnToggle.style.transform = 'scale(0.8)';
-    setTimeout(() => btnToggle.style.transform = 'scale(1)', 100);
-    
     if(isSitititMode) {
+      // Animasi klik
+      btnToggle.style.transform = 'translateY(-50%) scale(0.8) scaleX(-1)';
+      setTimeout(() => btnToggle.style.transform = 'translateY(-50%) scaleX(-1)', 100);
+      
       title.innerText = 'SITITIT';
       subtitle.innerText = 'Smart Image Training Intelligence Tiling & Indexing Tool';
       img.src = '/static/character-titit.png';
       img.onerror = () => { img.src = '/static/character-new2.png'; }; // fallback
-      btnToggle.innerText = '◀';
     } else {
+      // Animasi klik
+      btnToggle.style.transform = 'translateY(-50%) scale(0.8)';
+      setTimeout(() => btnToggle.style.transform = 'translateY(-50%) scale(1)', 100);
+      
       title.innerText = 'SIMEMEK';
       subtitle.innerText = 'Smart Image Metadata Extraction Mapping Engine Kit';
       img.src = '/static/character-new2.png';
       img.onerror = null;
-      btnToggle.innerText = '▶';
     }
   }
   
