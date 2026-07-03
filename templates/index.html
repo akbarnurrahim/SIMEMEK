@@ -146,6 +146,10 @@
         const clientId = "client_" + Math.random().toString(36).substr(2, 9);
         document.getElementById('stat-username').innerText = username;
         
+        const otherUsersGroup = new L.FeatureGroup();
+        map.addLayer(otherUsersGroup);
+        const otherUserBoxes = {};
+
         let ws;
         function connectWebSocket() {
             ws = new WebSocket(`ws://${window.location.host}/ws/${clientId}`);
@@ -157,39 +161,47 @@
             };
             
             ws.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            
-            if (data.type === "init") {
-                document.getElementById('stat-online').innerText = data.user_count;
-                for (const [cid, info] of Object.entries(data.boxes)) {
-                    if (cid !== clientId) renderOtherBox(cid, info);
+                const data = JSON.parse(event.data);
+                
+                if (data.type === "init") {
+                    document.getElementById('stat-online').innerText = data.user_count;
+                    for (const [cid, info] of Object.entries(data.boxes)) {
+                        if (cid !== clientId) renderOtherBox(cid, info);
+                    }
+                } else if (data.type === "user_count") {
+                    document.getElementById('stat-online').innerText = data.user_count;
+                } else if (data.type === "update_box") {
+                    if (data.client_id !== clientId) renderOtherBox(data.client_id, data.data);
+                } else if (data.type === "delete_box") {
+                    if (otherUserBoxes[data.client_id]) {
+                        otherUsersGroup.removeLayer(otherUserBoxes[data.client_id]);
+                        delete otherUserBoxes[data.client_id];
+                    }
+                } else if (data.type === 'new_history') {
+                    // Tampilkan histori secara real-time
+                    const item = data.data;
+                    const bounds = [
+                        [item.lat_min, item.lon_min],
+                        [item.lat_max, item.lon_max]
+                    ];
+                    const downloader = item.username ? item.username : "Unknown";
+                    const userColor = getColorForUser(downloader);
+                    L.rectangle(bounds, {
+                        color: userColor,
+                        weight: 2,
+                        fillColor: userColor,
+                        fillOpacity: 0.3
+                    }).addTo(map).bindPopup(`Downloaded by: ${downloader}<br>At: ${new Date(item.timestamp).toLocaleString()}`);
                 }
-            } else if (data.type === "user_count") {
-                document.getElementById('stat-online').innerText = data.user_count;
-            } else if (data.type === "update_box") {
-                if (data.client_id !== clientId) renderOtherBox(data.client_id, data.data);
-            } else if (data.type === "delete_box") {
-                if (otherUserBoxes[data.client_id]) {
-                    otherUsersGroup.removeLayer(otherUserBoxes[data.client_id]);
-                    delete otherUserBoxes[data.client_id];
-                }
-            } else if (data.type === 'new_history') {
-                // Tampilkan histori secara real-time
-                const item = data.data;
-                const bounds = [
-                    [item.lat_min, item.lon_min],
-                    [item.lat_max, item.lon_max]
-                ];
-                const downloader = item.username ? item.username : "Unknown";
-                const userColor = getColorForUser(downloader);
-                L.rectangle(bounds, {
-                    color: userColor,
-                    weight: 2,
-                    fillColor: userColor,
-                    fillOpacity: 0.3
-                }).addTo(map).bindPopup(`Downloaded by: ${downloader}<br>At: ${new Date(item.timestamp).toLocaleString()}`);
-            }
-        };
+            };
+
+            ws.onclose = function() {
+                console.log("WebSocket terputus. Mencoba menghubungkan kembali...");
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+
+        connectWebSocket();
         
         function renderOtherBox(cid, info) {
             if (otherUserBoxes[cid]) {
