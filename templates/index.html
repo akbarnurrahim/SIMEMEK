@@ -77,7 +77,7 @@
             <!-- Bottom Panel: Settings & Terminal -->
             <div class="bottom-panel">
                 <!-- Settings Panel -->
-                <div class="settings-section" style="flex: 3;">
+                <div class="settings-section" style="flex: 7;">
                     <div class="terminal-header">
                         <span>SETTINGS</span>
                     </div>
@@ -100,7 +100,7 @@
                 </div>
                 
                 <!-- Download Panel -->
-                <div class="settings-section" style="flex: 2; align-items: center; justify-content: center;">
+                <div class="settings-section" style="flex: 3; align-items: center; justify-content: center;">
                     <div class="terminal-header" style="width: 100%; border-bottom: 3px solid var(--border);">
                         <span>DOWNLOAD</span>
                     </div>
@@ -114,13 +114,7 @@
                     </div>
                 </div>
 
-                <!-- Terminal Log -->
-                <div class="terminal-section" style="flex: 5;">
-                    <div class="terminal-header">
-                        <span>SYS.LOG</span>
-                    </div>
-                    <div class="terminal-window" id="terminal"></div>
-                </div>
+                <!-- Terminal Log (Removed) -->
             </div>
         </div>
     </div>
@@ -411,6 +405,12 @@
 
         // Terminal Log
         function appendLog(text) {
+            const terminal = document.getElementById('terminal');
+            if (!terminal) {
+                if (text === "[PROCESS_FINISHED]") updateBadge("DONE");
+                console.log(text);
+                return;
+            }
             if (text === "[PROCESS_FINISHED]") {
                 updateBadge("DONE");
                 return;
