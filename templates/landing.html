@@ -116,20 +116,31 @@
   
   <div class="left-panel" style="flex: 1.2; display: flex; flex-direction: column; align-items: flex-start;">
     <div class="ghost-wrap">
-      <img src="/static/character-new2.png" alt="Character Logo" width="450" height="450" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 20px;">
+      <img id="brand-image" src="/static/character-new2.png" alt="Character Logo" width="450" height="450" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 20px;">
     </div>
-    <h1 class="brand" style="text-align: center; width: 450px; margin-bottom: 10px;">SIMEMEK</h1>
+    <h1 id="brand-title" class="brand" style="text-align: center; width: 450px; margin-bottom: 10px;">SIMEMEK</h1>
     <div class="domain-pill" style="margin-bottom: 0; justify-content: flex-start; gap: 0; margin-left: -80px;">
-      <span class="pill" style="padding-left: 0;">Smart Image Metadata Extraction Mapping Engine Kit</span>
+      <span id="brand-subtitle" class="pill" style="padding-left: 0;">Smart Image Metadata Extraction Mapping Engine Kit</span>
     </div>
   </div>
 
   <div class="right-panel" style="flex: 0.8; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px;">
     <div id="screen-home" class="screen" style="width: 100%;">
       <div class="cta" style="width: 100%; max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
-        <button onclick="showNameScreen()">▸ ENTER WORKSPACE</button>
-        <button onclick="alert('Menu Training Data belum tersedia!')">▸ TRAINING DATA</button>
-        <button onclick="alert('Menu Settings belum tersedia!')">▸ SETTINGS</button>
+        <!-- SIMEMEK MENU -->
+        <div id="menu-simemek" style="display: flex; flex-direction: column; gap: 15px;">
+          <button onclick="showNameScreen()">▸ ENTER WORKSPACE</button>
+          <button onclick="toggleTrainingMode(true)">▸ TRAINING DATA</button>
+          <button onclick="alert('Menu Settings belum tersedia!')">▸ SETTINGS</button>
+        </div>
+        
+        <!-- SITITIT MENU -->
+        <div id="menu-sititit" style="display: none; flex-direction: column; gap: 15px;">
+          <button onclick="alert('Validate mode belum tersedia!')">▸ VALIDATE</button>
+          <button onclick="alert('DataSplit mode belum tersedia!')">▸ DATA SPLIT</button>
+          <button onclick="alert('Train mode belum tersedia!')">▸ TRAIN</button>
+          <button onclick="toggleTrainingMode(false)" style="margin-top: 20px; opacity: 0.7;">◂ BACK TO MENU</button>
+        </div>
       </div>
     </div>
 
@@ -179,6 +190,28 @@
     document.getElementById('screen-home').style.display = 'none';
     document.getElementById('screen-name').style.display = 'flex';
     document.getElementById('username-input').focus();
+  }
+  
+  function toggleTrainingMode(enable) {
+    const title = document.getElementById('brand-title');
+    const subtitle = document.getElementById('brand-subtitle');
+    const img = document.getElementById('brand-image');
+    
+    if(enable) {
+      title.innerText = 'SITITIT';
+      subtitle.innerText = 'Smart Image Training Intelligence Tiling & Indexing Tool';
+      img.src = '/static/sititit-logo.png';
+      img.onerror = () => { img.src = '/static/character-new2.png'; }; // fallback
+      document.getElementById('menu-simemek').style.display = 'none';
+      document.getElementById('menu-sititit').style.display = 'flex';
+    } else {
+      title.innerText = 'SIMEMEK';
+      subtitle.innerText = 'Smart Image Metadata Extraction Mapping Engine Kit';
+      img.src = '/static/character-new2.png';
+      img.onerror = null;
+      document.getElementById('menu-sititit').style.display = 'none';
+      document.getElementById('menu-simemek').style.display = 'flex';
+    }
   }
   
   document.getElementById('btn-enter-game').addEventListener('click', () => {
