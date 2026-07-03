@@ -111,35 +111,30 @@
   GITHUB REPOSITORY
 </a>
 
-<div class="phone" style="max-width: 1200px; flex-direction: row; justify-content: center; align-items: stretch; gap: 60px;">
-  
-  <!-- Kiri: Gambar Karakter -->
-  <div class="left-col" style="flex: 1; display: flex; align-items: center; justify-content: flex-end;">
-    <img src="/static/character-new2.png" alt="Character Logo" width="450" height="450" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 0px;">
+<div class="phone">
+  <div id="screen-home" class="screen">
+    <div class="ghost-wrap">
+      <img src="/static/character-new2.png" alt="Character Logo" style="width: 100%; max-width: 480px; height: auto; object-fit: contain; image-rendering: pixelated; margin-bottom: 24px;">
+    </div>
+    <div class="domain-pill">
+      <span class="rule"></span>
+      <span class="pill">Smart Image Metadata Extraction Mapping Engine Kit</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="cta">
+      <button onclick="showNameScreen()">▸ ENTER WORKSPACE</button>
+    </div>
   </div>
 
-  <!-- Kanan: Konten Teks dan Tombol -->
-  <div class="right-col" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 450px;">
+  <div id="screen-name" class="screen" style="display: none; padding-top: 40px;">
+    <h2 style="font-family: 'Press Start 2P', monospace; font-size: 20px; margin-bottom: 40px; text-align: center;">IDENTIFY YOURSELF</h2>
     
-    <div id="screen-home" class="screen" style="align-items: flex-start; text-align: left;">
-      <h1 class="brand" style="text-align: left; font-size: 56px; margin: 0 0 16px 0;">SIMEMEK</h1>
-      <p style="font-family: 'Press Start 2P', monospace; font-size: 14px; line-height: 1.6; color: var(--gray); margin-bottom: 40px; text-transform: uppercase;">
-        Smart Image Metadata Extraction Mapping Engine Kit
-      </p>
-      <div class="cta" style="width: 100%;">
-        <button onclick="showNameScreen()">▸ ENTER WORKSPACE</button>
-      </div>
-    </div>
-
-    <div id="screen-name" class="screen" style="display: none; align-items: flex-start; text-align: left;">
-      <h1 class="brand" style="text-align: left; font-size: 56px; margin: 0 0 16px 0;">SIMEMEK</h1>
-      <h2 style="font-family: 'Press Start 2P', monospace; font-size: 16px; margin-bottom: 24px; color: var(--ink);">IDENTIFY YOURSELF</h2>
-      <input type="text" id="username-input" placeholder="GUEST" style="width: 100%; background: transparent; border: 4px solid var(--ink); color: var(--ink); font-family: 'Press Start 2P', monospace; font-size: 24px; padding: 20px; text-align: left; margin-bottom: 24px; text-transform: uppercase; outline: none;" autocomplete="off" maxlength="12">
-      <div class="cta" style="width: 100%;">
-        <button id="btn-enter-game" style="font-size: 24px; padding: 20px 0;">▸ START</button>
-      </div>
-    </div>
+    <input type="text" id="username-input" placeholder="GUEST" style="width: 100%; max-width: 400px; background: transparent; border: 4px solid var(--ink); color: var(--ink); font-family: 'Press Start 2P', monospace; font-size: 24px; padding: 20px; text-align: center; margin-bottom: 40px; text-transform: uppercase; outline: none;" autocomplete="off" maxlength="12">
     
+    <div class="cta" style="max-width: 400px; width: 100%;">
+      <button id="btn-enter-game" style="font-size: 24px; padding: 20px 0;">▸ START</button>
+    </div>
   </div>
 
   <div id="screen-opening" class="screen" style="display: none; position: fixed; inset: 0; background: var(--bg); background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px); background-size: 6px 6px; color: var(--ink); flex-direction: column; align-items: center; justify-content: center; z-index: 999;">
