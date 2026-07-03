@@ -146,18 +146,17 @@
         const clientId = "client_" + Math.random().toString(36).substr(2, 9);
         document.getElementById('stat-username').innerText = username;
         
-        const ws = new WebSocket(`ws://${window.location.host}/ws/${clientId}`);
-        const otherUsersGroup = new L.FeatureGroup();
-        map.addLayer(otherUsersGroup);
-        const otherUserBoxes = {};
-        
-        ws.onopen = function() {
-            if (currentBbox) {
-                sendBoxUpdate();
-            }
-        };
-        
-        ws.onmessage = function(event) {
+        let ws;
+        function connectWebSocket() {
+            ws = new WebSocket(`ws://${window.location.host}/ws/${clientId}`);
+            
+            ws.onopen = function() {
+                if (currentBbox) {
+                    sendBoxUpdate();
+                }
+            };
+            
+            ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
             
             if (data.type === "init") {
