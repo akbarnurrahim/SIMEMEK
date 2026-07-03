@@ -438,9 +438,11 @@ def get_level_info(exp):
     elif level >= 10:
         title = "Dr Memek"
     elif level >= 7:
-        title = "Memek Senior"
+        title = "Sarjana Memek"
     elif level >= 5:
         title = "Memek Mania"
+    else:
+        title = "Newbie"
         
     return {
         "level": level,
