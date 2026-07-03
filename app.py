@@ -426,11 +426,28 @@ def get_level_info(exp):
         total_needed_for_next += req
         
     exp_in_level = exp - current_tier_base
+    
+    # Tentukan Gelar (Title)
+    title = ""
+    if level >= 50:
+        title = "Dewa Memek"
+    elif level >= 22:
+        title = "Raja Memek"
+    elif level >= 20:
+        title = "Professor Memek"
+    elif level >= 10:
+        title = "Dr Memek"
+    elif level >= 7:
+        title = "Memek Senior"
+    elif level >= 5:
+        title = "Memek Mania"
+        
     return {
         "level": level,
         "exp_total": exp,
         "exp_current": exp_in_level,
-        "exp_needed": req
+        "exp_needed": req,
+        "title": title
     }
 
 @app.get("/api/user_info")

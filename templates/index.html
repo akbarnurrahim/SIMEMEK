@@ -90,7 +90,13 @@
                         <span>USER INFO</span>
                     </div>
                     <div class="settings-content rpg-options">
-                        <div class="rpg-text" style="margin-bottom: 15px;"><span class="cursor visible">></span> <span class="rpg-label">USER</span> <span class="rpg-val" id="stat-username">-</span></div>
+                        <div class="rpg-text" style="margin-bottom: 15px;">
+                            <span class="cursor visible">></span> <span class="rpg-label">USER</span> 
+                            <span class="rpg-val">
+                                <span id="stat-username" style="display: block;">-</span>
+                                <span id="stat-title" style="font-size: 8px; color: var(--text-muted); display: block; margin-top: 4px;">-</span>
+                            </span>
+                        </div>
                         <div class="rpg-text" style="margin-bottom: 15px;"><span class="cursor visible">></span> <span class="rpg-label" style="color: var(--text-main);">LEVEL</span> <span class="rpg-val" id="stat-level" style="color: var(--text-main);">1</span></div>
                         <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">EXP</span> <span class="rpg-val" id="stat-exp">0 / 500</span></div>
                     </div>
@@ -603,6 +609,7 @@
                     
                     document.getElementById('stat-level').innerText = userData.level;
                     document.getElementById('stat-exp').innerText = `${userData.exp_current} / ${userData.exp_needed}`;
+                    document.getElementById('stat-title').innerText = userData.title || "Novice";
                     
                     if (currentLevel > 0 && userData.level > currentLevel) {
                         showRetroToast(`LEVEL UP! YOU ARE NOW LEVEL ${userData.level}`);
