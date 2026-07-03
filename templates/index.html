@@ -142,7 +142,7 @@
         const doneSound = document.getElementById('done-sound');
 
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('button, .rpg-btn, input, select, .leaflet-interactive')) {
+            if (e.target.closest('button')) {
                 if (hoverSound) {
                     let s = hoverSound.cloneNode();
                     s.volume = 0.5;
