@@ -94,7 +94,7 @@
                             <span class="cursor visible">></span> <span class="rpg-label">USER</span> 
                             <span class="rpg-val">
                                 <span id="stat-username">-</span>
-                                <span id="stat-title-wrap" style="color: var(--text-muted); margin-left: 5px; text-transform: uppercase;">(<span id="stat-title">Newbie</span>)</span>
+                                <span id="stat-title-wrap" style="color: var(--text-muted); margin-left: 5px; text-transform: uppercase;">(<span id="stat-title">Operator</span>)</span>
                             </span>
                         </div>
                         <div class="rpg-text" style="margin-bottom: 15px;"><span class="cursor visible">></span> <span class="rpg-label" style="color: var(--text-main);">LEVEL</span> <span class="rpg-val" id="stat-level" style="color: var(--text-main);">1</span></div>
@@ -144,7 +144,7 @@
         <div class="retro-modal-content">
             <h2 style="text-align: center; margin-bottom: 20px;">INFO GELAR</h2>
             <div style="line-height: 2;">
-                <div>Level 1 - 4: <span style="color:var(--text-muted)">Novice (Gelar awal)</span></div>
+                <div>Level 1 - 4: <span style="color:var(--text-muted)">Operator (Gelar awal)</span></div>
                 <div>Level 5: <span style="color:var(--text-muted)">Memek Mania</span></div>
                 <div>Level 7: <span style="color:var(--text-muted)">Sarjana Memek</span></div>
                 <div>Level 10: <span style="color:var(--text-muted)">Dr Memek</span></div>
@@ -633,7 +633,7 @@
                     
                     document.getElementById('stat-level').innerText = userData.level;
                     document.getElementById('stat-exp').innerText = `${userData.exp_current} / ${userData.exp_needed}`;
-                    document.getElementById('stat-title').innerText = userData.title || "Novice";
+                    document.getElementById('stat-title').innerText = userData.title || "Operator";
                     
                     if (currentLevel > 0 && userData.level > currentLevel) {
                         showRetroToast(`LEVEL UP! YOU ARE NOW LEVEL ${userData.level}`);
