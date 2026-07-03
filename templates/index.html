@@ -22,6 +22,33 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/style.css?v=3">
     
+    <style>
+        /* Retro Modal Inlined for Guaranteed Load */
+        .retro-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 999999 !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .retro-modal-content {
+            background: var(--bg-panel);
+            padding: 30px;
+            border: 4px solid var(--border);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            min-width: 300px;
+            color: var(--text-main);
+            z-index: 9999999 !important;
+        }
+    </style>
+    
     <!-- Audio Elements -->
     <audio id="hover-sound" src="/static/floraphonic-8-bit-game-2-186976.mp3" preload="auto"></audio>
     <audio id="done-sound" src="/static/dammafra-virtual-pet-evolution-458156.mp3" preload="auto"></audio>
