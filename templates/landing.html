@@ -118,7 +118,12 @@
     <div class="ghost-wrap">
       <img id="brand-image" src="/static/character-new2.png" alt="Character Logo" width="450" height="450" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 20px;">
     </div>
-    <h1 id="brand-title" class="brand" style="text-align: center; width: 450px; margin-bottom: 10px;">SIMEMEK</h1>
+    
+    <div style="display: flex; align-items: center; justify-content: center; width: 450px; margin-bottom: 10px; position: relative;">
+      <h1 id="brand-title" class="brand" style="margin: 0; text-align: center;">SIMEMEK</h1>
+      <button id="btn-toggle-app" onclick="toggleAppMode()" style="position: absolute; right: 0; background: none; border: none; color: var(--ink); font-family: 'Press Start 2P', monospace; font-size: 24px; cursor: pointer; padding: 0; outline: none; transition: transform 0.1s;">▶</button>
+    </div>
+    
     <div class="domain-pill" style="margin-bottom: 0; justify-content: flex-start; gap: 0; margin-left: -80px;">
       <span id="brand-subtitle" class="pill" style="padding-left: 0;">Smart Image Metadata Extraction Mapping Engine Kit</span>
     </div>
@@ -177,6 +182,33 @@
     document.getElementById('screen-home').style.display = 'none';
     document.getElementById('screen-name').style.display = 'flex';
     document.getElementById('username-input').focus();
+  }
+  
+  let isSitititMode = false;
+  function toggleAppMode() {
+    isSitititMode = !isSitititMode;
+    const title = document.getElementById('brand-title');
+    const subtitle = document.getElementById('brand-subtitle');
+    const img = document.getElementById('brand-image');
+    const btnToggle = document.getElementById('btn-toggle-app');
+    
+    // Animasi klik tombol sederhana
+    btnToggle.style.transform = 'scale(0.8)';
+    setTimeout(() => btnToggle.style.transform = 'scale(1)', 100);
+    
+    if(isSitititMode) {
+      title.innerText = 'SITITIT';
+      subtitle.innerText = 'Smart Image Training Intelligence Tiling & Indexing Tool';
+      img.src = '/static/character-titit.png';
+      img.onerror = () => { img.src = '/static/character-new2.png'; }; // fallback
+      btnToggle.innerText = '◀';
+    } else {
+      title.innerText = 'SIMEMEK';
+      subtitle.innerText = 'Smart Image Metadata Extraction Mapping Engine Kit';
+      img.src = '/static/character-new2.png';
+      img.onerror = null;
+      btnToggle.innerText = '▶';
+    }
   }
   
   document.getElementById('btn-enter-game').addEventListener('click', () => {
