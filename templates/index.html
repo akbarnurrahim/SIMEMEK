@@ -63,9 +63,6 @@
             <div class="rpg-menu" style="flex: 1;">
                 <div class="rpg-title">Server Info</div>
                 <div class="rpg-options">
-                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">USER</span> <span class="rpg-val" id="stat-username">-</span></div>
-                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label" style="color: #fce205;">LEVEL</span> <span class="rpg-val" id="stat-level" style="color: #fce205;">1</span></div>
-                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">EXP</span> <span class="rpg-val" id="stat-exp">0 / 500</span></div>
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">ONLINE</span> <span class="rpg-val" id="stat-online">1</span></div>
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Total DB</span> <span class="rpg-val" id="stat-total-db">0</span></div>
                 </div>
@@ -76,10 +73,22 @@
             <!-- Map (Mengambil sebagian besar layar) -->
             <div class="map-container" id="map"></div>
             
-            <!-- Bottom Panel: Settings & Terminal -->
+            <!-- Bottom Panel: User Info, Settings, & Download -->
             <div class="bottom-panel">
+                <!-- User Info Panel -->
+                <div class="settings-section" style="flex: 3;">
+                    <div class="terminal-header">
+                        <span>USER INFO</span>
+                    </div>
+                    <div class="settings-content rpg-options">
+                        <div class="rpg-text" style="margin-bottom: 15px;"><span class="cursor visible">></span> <span class="rpg-label">USER</span> <span class="rpg-val" id="stat-username">-</span></div>
+                        <div class="rpg-text" style="margin-bottom: 15px;"><span class="cursor visible">></span> <span class="rpg-label" style="color: var(--text-main);">LEVEL</span> <span class="rpg-val" id="stat-level" style="color: var(--text-main);">1</span></div>
+                        <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">EXP</span> <span class="rpg-val" id="stat-exp">0 / 500</span></div>
+                    </div>
+                </div>
+
                 <!-- Settings Panel -->
-                <div class="settings-section" style="flex: 7;">
+                <div class="settings-section" style="flex: 4;">
                     <div class="terminal-header">
                         <span>SETTINGS</span>
                     </div>
