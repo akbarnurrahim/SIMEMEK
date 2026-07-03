@@ -502,7 +502,19 @@ input[type="range"] {
     background-color: var(--bg-panel) !important;
     color: var(--text-main) !important;
     border-bottom: 2px solid var(--border) !important;
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 12px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    background-image: none !important;
 }
+
+/* Custom 8-bit Icons for Leaflet Draw */
+.leaflet-draw-draw-rectangle::after { content: '■'; }
+.leaflet-draw-edit-edit::after { content: 'E'; }
+.leaflet-draw-edit-remove::after { content: 'X'; color: #ff0000; }
 
 .leaflet-bar a:last-child {
     border-bottom: none !important;
@@ -613,4 +625,28 @@ input[type="range"] {
     color: var(--bg-panel);
     box-shadow: 0px 0px 0px var(--border);
     transform: translate(2px, 2px);
+}
+
+/* Retro Modal */
+.retro-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.retro-modal-content {
+    background: var(--bg-panel);
+    padding: 30px;
+    border: 4px solid var(--border);
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    min-width: 300px;
 }
