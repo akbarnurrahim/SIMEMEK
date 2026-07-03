@@ -118,7 +118,7 @@
                         <div class="rpg-text" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
                             <div style="display: flex; align-items: center; gap: 5px;">
                                 <span class="cursor visible">></span> <span class="rpg-label">SHOW TITLE</span>
-                                <button id="btn-title-info" onclick="document.getElementById('title-modal').style.display='flex';" style="background:var(--text-main); color:var(--bg-panel); border:none; border-radius:50%; width:16px; height:16px; font-size:8px; cursor:pointer;">?</button>
+                                <button type="button" id="btn-title-info" onclick="event.preventDefault(); event.stopPropagation(); document.getElementById('title-modal').style.display='flex';" style="background:var(--text-main); color:var(--bg-panel); border:none; border-radius:50%; width:16px; height:16px; font-size:8px; cursor:pointer; position: relative; z-index: 9999;">?</button>
                             </div>
                             <input type="checkbox" id="toggle-title" checked style="accent-color: var(--text-main); transform: scale(1.5);">
                         </div>
