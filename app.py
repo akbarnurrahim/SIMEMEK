@@ -96,13 +96,13 @@ manager = ConnectionManager()
 
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
-    return templates.TemplateResponse("landing.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="landing.html", context={"request": request})
 
 @app.get("/app", response_class=HTMLResponse)
 async def index(request: Request):
     if not os.path.exists("01_prepare_dataset.py"):
         return HTMLResponse("<h1>Error: 01_prepare_dataset.py tidak ditemukan di direktori ini.</h1>", status_code=500)
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="index.html", context={"request": request})
 
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
