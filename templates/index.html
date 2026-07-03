@@ -59,12 +59,21 @@
                 </div>
             </div>
 
-            <!-- Server Info (RPG Style Menu) -->
-            <div class="rpg-menu" style="flex: 1;">
+            <!-- Server Info & Download -->
+            <div class="rpg-menu" style="flex: 1; display: flex; flex-direction: column;">
                 <div class="rpg-title">Server Info</div>
-                <div class="rpg-options">
+                <div class="rpg-options" style="flex: 1;">
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">ONLINE</span> <span class="rpg-val" id="stat-online">1</span></div>
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Total DB</span> <span class="rpg-val" id="stat-total-db">0</span></div>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button id="btn-download" class="retro-action-btn">
+                        GET ZIP
+                    </button>
+                    <button id="btn-repack" class="retro-action-btn secondary">
+                        ZIP AGAIN
+                    </button>
                 </div>
             </div>
         </div>
@@ -76,7 +85,7 @@
             <!-- Bottom Panel: User Info, Settings, & Download -->
             <div class="bottom-panel">
                 <!-- User Info Panel -->
-                <div class="settings-section" style="flex: 3;">
+                <div class="settings-section" style="flex: 4;">
                     <div class="terminal-header">
                         <span>USER INFO</span>
                     </div>
@@ -88,7 +97,7 @@
                 </div>
 
                 <!-- Settings Panel -->
-                <div class="settings-section" style="flex: 4;">
+                <div class="settings-section" style="flex: 6;">
                     <div class="terminal-header">
                         <span>SETTINGS</span>
                     </div>
@@ -110,20 +119,7 @@
                     </div>
                 </div>
                 
-                <!-- Download Panel -->
-                <div class="settings-section" style="flex: 3; align-items: center; justify-content: center;">
-                    <div class="terminal-header" style="width: 100%; border-bottom: 3px solid var(--border);">
-                        <span>DOWNLOAD</span>
-                    </div>
-                    <div class="settings-content rpg-options" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; gap: 10px;">
-                        <button id="btn-download" style="width: 100%; height: 50%; background: var(--text-main); color: var(--bg-panel); border: none; font-family: 'Press Start 2P', monospace; font-size: 16px; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: inset -4px -4px 0px rgba(0,0,0,0.2);">
-                            GET ZIP
-                        </button>
-                        <button id="btn-repack" style="width: 100%; padding: 8px 0; background: transparent; color: var(--text-main); border: 2px solid var(--text-main); font-family: 'Press Start 2P', monospace; font-size: 10px; cursor: pointer; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center;">
-                            ZIP AGAIN
-                        </button>
-                    </div>
-                </div>
+
 
                 <!-- Terminal Log (Removed) -->
             </div>
