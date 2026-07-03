@@ -118,7 +118,7 @@
                         <div class="rpg-text" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
                             <div style="display: flex; align-items: center; gap: 5px;">
                                 <span class="cursor visible">></span> <span class="rpg-label">SHOW TITLE</span>
-                                <button id="btn-title-info" style="background:var(--text-main); color:var(--bg-panel); border:none; border-radius:50%; width:16px; height:16px; font-size:8px; cursor:pointer;">?</button>
+                                <button id="btn-title-info" onclick="document.getElementById('title-modal').style.display='flex';" style="background:var(--text-main); color:var(--bg-panel); border:none; border-radius:50%; width:16px; height:16px; font-size:8px; cursor:pointer;">?</button>
                             </div>
                             <input type="checkbox" id="toggle-title" checked style="accent-color: var(--text-main); transform: scale(1.5);">
                         </div>
@@ -152,7 +152,7 @@
                 <div>Level 22: <span style="color:var(--text-muted)">Raja Memek</span></div>
                 <div>Level 50: <span style="color:var(--text-muted)">Dewa Memek</span></div>
             </div>
-            <button id="btn-close-modal" class="retro-action-btn" style="margin-top: 20px;">TUTUP</button>
+            <button id="btn-close-modal" onclick="document.getElementById('title-modal').style.display='none';" class="retro-action-btn" style="margin-top: 20px;">TUTUP</button>
         </div>
     </div>
 
@@ -680,20 +680,9 @@
             localStorage.setItem('geoai_show_title', isChecked);
         });
 
-        // --- TITLE MODAL LOGIC ---
-        const btnTitleInfo = document.getElementById('btn-title-info');
-        const modalTitle = document.getElementById('title-modal');
-        const btnCloseModal = document.getElementById('btn-close-modal');
-
-        btnTitleInfo.addEventListener('click', () => {
-            modalTitle.style.display = 'flex';
-        });
-
-        btnCloseModal.addEventListener('click', () => {
-            modalTitle.style.display = 'none';
-        });
-
+        // Modal outside click
         window.addEventListener('click', (e) => {
+            const modalTitle = document.getElementById('title-modal');
             if (e.target === modalTitle) {
                 modalTitle.style.display = 'none';
             }
