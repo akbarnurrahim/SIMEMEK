@@ -21,6 +21,10 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Audio Elements -->
+    <audio id="hover-sound" src="/static/floraphonic-8-bit-game-2-186976.mp3" preload="auto"></audio>
+    <audio id="done-sound" src="/static/dammafra-virtual-pet-evolution-458156.mp3" preload="auto"></audio>
 </head>
 <body>
     <div class="app-container">
@@ -127,6 +131,37 @@
         if (!username) {
             window.location.href = '/#name-input';
             throw new Error("Redirecting to login...");
+        }
+
+        // Notification & Audio Setup
+        if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+            Notification.requestPermission();
+        }
+
+        const hoverSound = document.getElementById('hover-sound');
+        const doneSound = document.getElementById('done-sound');
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('button, .rpg-btn, input, select, .leaflet-interactive')) {
+                if (hoverSound) {
+                    hoverSound.currentTime = 0;
+                    hoverSound.volume = 0.5;
+                    hoverSound.play().catch(()=>{});
+                }
+            }
+        });
+
+        function notifyProcessDone(msg) {
+            if (doneSound) {
+                doneSound.currentTime = 0;
+                doneSound.play().catch(()=>{});
+            }
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("SIMEMEK", {
+                    body: msg || "Proses telah selesai!",
+                    icon: "/static/character-new2.png"
+                });
+            }
         }
 
         // Map Initialization
@@ -538,6 +573,13 @@
                 document.getElementById('stat-estimate').innerText = estimateStr;
                 document.getElementById('stat-total-db').innerText = data.total_db || 0;
                 
+                let prevStatusState = window.currentProcessStatus || 'IDLE';
+                window.currentProcessStatus = data.status;
+                
+                if (data.status === 'DONE' && prevStatusState === 'RUNNING') {
+                    notifyProcessDone("Proses ekstraksi metadata gambar telah selesai!");
+                }
+                
                 if (data.status === 'DONE' || data.status === 'ERROR' || data.status === 'IDLE') {
                     if(data.status !== 'IDLE') updateBadge(data.status);
                 } else if (data.status === 'RUNNING') {
@@ -587,6 +629,12 @@
                 if (data.state === 'ready') {
                     if(zipPollInterval) clearInterval(zipPollInterval);
                     zipPollInterval = null;
+                    
+                    if (window.currentZipState !== 'ready') {
+                         notifyProcessDone("File ZIP telah siap diunduh!");
+                    }
+                    window.currentZipState = 'ready';
+                    
                     btn.innerText = `GET ZIP (${data.count} DATASET)`;
                     btn.style.opacity = '1';
                     btn.style.cursor = 'pointer';
