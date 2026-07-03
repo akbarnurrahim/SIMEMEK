@@ -204,10 +204,13 @@
         hoverSound.play().catch(()=>{});
     }
 
-    // Trigger animasi blink ala retro game
-    panel.style.animation = 'none';
-    void panel.offsetWidth; // force reflow
-    panel.style.animation = 'retroBlink 0.6s steps(2, end)';
+    // Trigger animasi blink ala retro game pada elemen tertentu saja
+    const elementsToBlink = [img, title, subtitle];
+    elementsToBlink.forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetWidth; // force reflow
+        el.style.animation = 'retroBlink 0.6s steps(2, end)';
+    });
     
     // Ganti konten tepat di tengah-tengah animasi
     setTimeout(() => {
