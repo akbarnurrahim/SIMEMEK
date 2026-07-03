@@ -582,8 +582,8 @@ input[type="range"] {
     color: var(--bg-panel);
     border: none;
     font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    padding: 12px;
+    font-size: 9px;
+    padding: 8px;
     cursor: pointer;
     box-shadow: inset -4px -4px 0px rgba(0,0,0,0.3), 2px 2px 0px var(--border);
     transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
