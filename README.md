@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="static/character.png" alt="SIMEMEK Logo" width="200"/>
+  <img src="static/character-new.png" alt="SIMEMEK Logo" width="200"/>
   
   # SIMEMEK
   **Smart Image Metadata Extraction Mapping Engine Kit**
