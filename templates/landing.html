@@ -169,6 +169,12 @@
   }
   
   document.getElementById('btn-enter-game').addEventListener('click', () => {
+    const bg = document.getElementById('bg-music');
+    if (bg && bg.paused) {
+      bg.volume = 0.5;
+      bg.play().catch(e => console.log(e));
+    }
+
     let name = document.getElementById('username-input').value.trim();
     if (!name) name = "GUEST_" + Math.floor(Math.random() * 999);
     localStorage.setItem('geoai_username', name.toUpperCase());
