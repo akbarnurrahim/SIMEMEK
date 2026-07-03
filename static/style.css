@@ -98,8 +98,11 @@ body {
 .map-container {
     flex: 1;
     align-self: stretch;
-    border: 3px solid var(--border);
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    border-style: solid;
+    border-width: 8px;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M2 2h20v2H2zM2 20h20v2H2zM2 4h2v16H2zM20 4h2v16H20z' fill='%23161616'/%3E%3Cpath d='M6 6h12v2H6zM6 16h12v2H6zM6 8h2v8H6zM16 8h2v8H16z' fill='%23161616'/%3E%3Cpath d='M0 0h4v4H0zM20 0h4v4H20zM0 20h4v4H0zM20 20h4v4H20z' fill='%23161616'/%3E%3Cpath d='M1 1h1v1H1zM21 1h1v1H21zM1 21h1v1H1zM21 21h1v1H21z' fill='%23ffffff'/%3E%3C/svg%3E") 8 stretch;
+    box-shadow: none;
+    border-radius: 0;
     z-index: 1; /* For leaflet */
 }
 
@@ -241,10 +244,13 @@ input[type="range"] {
 .settings-section {
     flex: 4;
     background-color: var(--bg-panel);
-    border: 3px solid var(--border);
     display: flex;
     flex-direction: column;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    border-style: solid;
+    border-width: 8px;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M2 2h20v2H2zM2 20h20v2H2zM2 4h2v16H2zM20 4h2v16H20z' fill='%23161616'/%3E%3Cpath d='M6 6h12v2H6zM6 16h12v2H6zM6 8h2v8H6zM16 8h2v8H16z' fill='%23161616'/%3E%3Cpath d='M0 0h4v4H0zM20 0h4v4H20zM0 20h4v4H0zM20 20h4v4H20z' fill='%23161616'/%3E%3Cpath d='M1 1h1v1H1zM21 1h1v1H21zM1 21h1v1H1zM21 21h1v1H21z' fill='%23ffffff'/%3E%3C/svg%3E") 8 stretch;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .settings-content {
@@ -257,11 +263,13 @@ input[type="range"] {
     flex: 6;
     height: 100%;
     background-color: var(--bg-panel); /* Senada dengan tema */
-    border: 3px solid var(--border);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    border-style: solid;
+    border-width: 8px;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M2 2h20v2H2zM2 20h20v2H2zM2 4h2v16H2zM20 4h2v16H20z' fill='%23161616'/%3E%3Cpath d='M6 6h12v2H6zM6 16h12v2H6zM6 8h2v8H6zM16 8h2v8H16z' fill='%23161616'/%3E%3Cpath d='M0 0h4v4H0zM20 0h4v4H20zM0 20h4v4H0zM20 20h4v4H20z' fill='%23161616'/%3E%3Cpath d='M1 1h1v1H1zM21 1h1v1H21zM1 21h1v1H1zM21 21h1v1H21z' fill='%23ffffff'/%3E%3C/svg%3E") 8 stretch;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .terminal-header {
@@ -316,10 +324,13 @@ input[type="range"] {
 
 /* RPG Menu Style */
 .rpg-menu {
-    border: 3px solid var(--border);
     background-color: var(--bg-panel); /* Senada dengan tema */
     padding: 16px;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    border-style: solid;
+    border-width: 8px;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M2 2h20v2H2zM2 20h20v2H2zM2 4h2v16H2zM20 4h2v16H20z' fill='%23161616'/%3E%3Cpath d='M6 6h12v2H6zM6 16h12v2H6zM6 8h2v8H6zM16 8h2v8H16z' fill='%23161616'/%3E%3Cpath d='M0 0h4v4H0zM20 0h4v4H20zM0 20h4v4H0zM20 20h4v4H20z' fill='%23161616'/%3E%3Cpath d='M1 1h1v1H1zM21 1h1v1H21zM1 21h1v1H1zM21 21h1v1H21z' fill='%23ffffff'/%3E%3C/svg%3E") 8 stretch;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .rpg-title {
