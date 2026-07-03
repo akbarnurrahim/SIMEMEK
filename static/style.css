@@ -236,7 +236,7 @@ input[type="range"] {
 .bottom-panel {
     display: flex;
     gap: 20px;
-    height: 180px;
+    height: 220px;
     flex: none;
     width: 100%;
 }
