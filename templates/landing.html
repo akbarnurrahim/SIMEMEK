@@ -118,7 +118,7 @@
       <img src="/static/character-new2.png" alt="Character Logo" width="450" height="450" style="object-fit: contain; image-rendering: pixelated; margin-bottom: 20px;">
     </div>
     <h1 class="brand" style="text-align: center; width: 450px; margin-bottom: 10px;">SIMEMEK</h1>
-    <div class="domain-pill" style="margin-bottom: 0; justify-content: flex-start; gap: 0; margin-left: -40px;">
+    <div class="domain-pill" style="margin-bottom: 0; justify-content: flex-start; gap: 0; margin-left: -80px;">
       <span class="pill" style="padding-left: 0;">Smart Image Metadata Extraction Mapping Engine Kit</span>
     </div>
   </div>
@@ -172,12 +172,17 @@
     document.getElementById('screen-opening').style.display = 'flex';
     
     const messages = [
-      { progress: 10, text: "Ensuring FGB file is perfectly readable..." },
-      { progress: 30, text: "Loading Mapping Data from Google..." },
-      { progress: 50, text: "Loading Mapping Data from ESRI..." },
-      { progress: 70, text: "Preparing Workspace for you..." },
-      { progress: 85, text: "Extracting Tile Maps..." },
-      { progress: 100, text: "Preparing Collaborating socket..." }
+      { progress: 5, text: "Initializing SIMEMEK AI Engine v1.0..." },
+      { progress: 12, text: "Allocating memory buffers..." },
+      { progress: 20, text: "Validating IDN.fgb geometry indices..." },
+      { progress: 31, text: "Ensuring FGB file is perfectly readable..." },
+      { progress: 42, text: "Establishing secure connection to imagery servers..." },
+      { progress: 54, text: "Loading High-Res Mapping Data from ESRI..." },
+      { progress: 66, text: "Warming up spatial algorithms..." },
+      { progress: 75, text: "Preparing Collaborative WebSocket instances..." },
+      { progress: 83, text: "Extracting Vector Tile Maps..." },
+      { progress: 92, text: "Synchronizing Multi-user Workspace..." },
+      { progress: 100, text: "System Online. Welcome to SIMEMEK." }
     ];
 
     const bar = document.getElementById('loading-bar');
@@ -188,7 +193,8 @@
     let messageIndex = 0;
 
     const interval = setInterval(() => {
-      currentProgress += Math.floor(Math.random() * 3) + 1;
+      // 10 seconds total = 100 steps * 100ms
+      currentProgress += 1;
       if (currentProgress > 100) currentProgress = 100;
       
       bar.style.width = currentProgress + '%';
@@ -203,9 +209,9 @@
         clearInterval(interval);
         setTimeout(() => {
           window.location.href = '/app';
-        }, 600); // Tunggu sebentar sebelum pindah halaman
+        }, 800); // Tunggu sebentar sebelum pindah halaman
       }
-    }, 40);
+    }, 100);
   });
 
   // Enter key support
