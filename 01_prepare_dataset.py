@@ -265,6 +265,9 @@ def main():
     progress_data = {"total": len(tiles), "done": 0, "failed": 0}
     with open(progress_file, "w") as f:
         json.dump(progress_data, f)
+
+    new_exp_buffer = 0
+    users_file = Path("users.json")
     
     # 3. Proses per tile
     pairs = []
@@ -323,6 +326,28 @@ def main():
             failed_tiles.append(tile)
             continue
             
+        new_exp_buffer += 1
+        
+        # Batch update EXP ke users.json setiap 10 tile atau tile terakhir
+        if new_exp_buffer >= 10 or processed_count == len(tiles):
+            try:
+                if users_file.exists():
+                    with open(users_file, "r") as uf:
+                        u_data = json.load(uf)
+                else:
+                    u_data = {}
+                
+                uname = args.user if args.user else "GUEST"
+                if uname not in u_data:
+                    u_data[uname] = {"exp": 0, "level": 1}
+                u_data[uname]["exp"] += new_exp_buffer
+                
+                with open(users_file, "w") as uf:
+                    json.dump(u_data, uf)
+                new_exp_buffer = 0
+            except Exception as e:
+                pass
+                
         # Rasterize Mask & Save GeoJSON
         bounds = mercantile.bounds(tile)
         tile_poly = box(bounds.west, bounds.south, bounds.east, bounds.north)

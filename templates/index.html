@@ -64,6 +64,8 @@
                 <div class="rpg-title">Server Info</div>
                 <div class="rpg-options">
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">USER</span> <span class="rpg-val" id="stat-username">-</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label" style="color: #fce205;">LEVEL</span> <span class="rpg-val" id="stat-level" style="color: #fce205;">1</span></div>
+                    <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">EXP</span> <span class="rpg-val" id="stat-exp">0 / 500</span></div>
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">ONLINE</span> <span class="rpg-val" id="stat-online">1</span></div>
                     <div class="rpg-text"><span class="cursor visible">></span> <span class="rpg-label">Total DB</span> <span class="rpg-val" id="stat-total-db">0</span></div>
                 </div>
@@ -521,6 +523,22 @@
         let fetchStatusInterval = null;
         let processStartTime = null;
         let lastDone = 0;
+        let currentLevel = 0;
+        
+        function showRetroToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'retro-toast';
+            toast.innerText = message;
+            document.body.appendChild(toast);
+            
+            const levelUpSound = new Audio('/static/dammafra-virtual-pet-evolution-458156.mp3');
+            levelUpSound.play().catch(()=>{});
+            
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
         
         async function fetchStatus() {
             try {
@@ -572,6 +590,20 @@
                 document.getElementById('stat-failed').innerText = failed;
                 document.getElementById('stat-estimate').innerText = estimateStr;
                 document.getElementById('stat-total-db').innerText = data.total_db || 0;
+                
+                // Fetch User Level Info
+                try {
+                    const userRes = await fetch(`/api/user_info?user=${username}`);
+                    const userData = await userRes.json();
+                    
+                    document.getElementById('stat-level').innerText = userData.level;
+                    document.getElementById('stat-exp').innerText = `${userData.exp_current} / ${userData.exp_needed}`;
+                    
+                    if (currentLevel > 0 && userData.level > currentLevel) {
+                        showRetroToast(`LEVEL UP! YOU ARE NOW LEVEL ${userData.level}`);
+                    }
+                    currentLevel = userData.level;
+                } catch(e) {}
                 
                 let prevStatusState = window.currentProcessStatus || 'IDLE';
                 window.currentProcessStatus = data.status;

@@ -542,3 +542,36 @@ input[type="range"] {
 .other-user-tooltip {
     background-color: #f7e0ce !important; /* Warna agak beda buat user lain */
 }
+
+/* Retro Toast Notification */
+.retro-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-panel);
+    color: #fce205; /* Yellow for level up */
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    padding: 20px 40px;
+    border-style: solid;
+    border-width: 8px;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M2 2h20v2H2zM2 20h20v2H2zM2 4h2v16H2zM20 4h2v16H20z' fill='%23161616'/%3E%3Cpath d='M6 6h12v2H6zM6 16h12v2H6zM6 8h2v8H6zM16 8h2v8H16z' fill='%23161616'/%3E%3Cpath d='M0 0h4v4H0zM20 0h4v4H20zM0 20h4v4H0zM20 20h4v4H20z' fill='%23161616'/%3E%3Cpath d='M1 1h1v1H1zM21 1h1v1H21zM1 21h1v1H1zM21 21h1v1H21z' fill='%23ffffff'/%3E%3C/svg%3E") 8 stretch;
+    z-index: 9999;
+    animation: slideDown 0.5s forwards;
+    text-shadow: 2px 2px 0px #000;
+}
+
+.retro-toast.hide {
+    animation: slideUp 0.5s forwards;
+}
+
+@keyframes slideDown {
+    from { top: -100px; opacity: 0; }
+    to { top: 20px; opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { top: 20px; opacity: 1; }
+    to { top: -100px; opacity: 0; }
+}

@@ -413,6 +413,41 @@ async def delete_dataset():
         return {"status": "deleted"}
     return {"status": "not_found"}
 
+def get_level_info(exp):
+    level = 1
+    req = 500
+    total_needed_for_next = req
+    current_tier_base = 0
+    
+    while exp >= total_needed_for_next:
+        level += 1
+        current_tier_base = total_needed_for_next
+        req = int(req * 1.5)
+        total_needed_for_next += req
+        
+    exp_in_level = exp - current_tier_base
+    return {
+        "level": level,
+        "exp_total": exp,
+        "exp_current": exp_in_level,
+        "exp_needed": req
+    }
+
+@app.get("/api/user_info")
+async def get_user_info(user: str = "GUEST"):
+    users_file = "users.json"
+    user_exp = 0
+    if os.path.exists(users_file):
+        try:
+            with open(users_file, "r") as f:
+                data = json.load(f)
+                if user in data:
+                    user_exp = data[user].get("exp", 0)
+        except:
+            pass
+            
+    return get_level_info(user_exp)
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app:app", host="0.0.0.0", port=8080, reload=True)
